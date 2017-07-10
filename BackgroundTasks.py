@@ -25,12 +25,16 @@ def scheduleBackgroundTasks (client, roomIDs):
     inputListener.start()
 
     while (1):
-        if len (Chatcommunicate.runningCommands) > 0:
-            for eachCommand in Chatcommunicate.runningCommands:
-                if eachCommand.is_alive() == False:
-                    Chatcommunicate.runningCommands.remove (eachCommand)
+        try:
+            #Remove commands which have completed.
+            if len (Chatcommunicate.runningCommands) > 0:
+                for i in range (len(Chatcommunicate.runningCommands)):
+                    if Chatcommunicate.runningCommands [i]["thread"].is_alive() == False:
+                        del Chatcommunicate.runningCommands [i]
+        except TypeError:
+            pass
     
-        if shouldShutdown == True:
+        if shouldShutdown == True or shouldReboot == True:
             break
 
         time.sleep (1)

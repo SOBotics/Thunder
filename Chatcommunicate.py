@@ -4,12 +4,13 @@ import string
 import threading
 from Commands import commandList
 
-runningCommands = list()
+#runningCommands = {"thread": None, "command": None, "user": None}
+runningCommands = [{"thread": threading.Thread, "command": None, "user": None}]
 
 def runCommand (command, message, args):
     commandThread = threading.Thread (target=commandList[command], args=(message, args), kwargs={})
     
-    runningCommands.append (commandThread)
+    runningCommands.append ({"thread": commandThread, "command": command, "user": message.user.name})
     commandThread.start()
 
 def handleCommand (content, message):

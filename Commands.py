@@ -6,15 +6,9 @@ import BackgroundTasks
 def commandAlive (message, args):
     message.message.reply ("yes!")
 
-def commandReboot (message):
+def commandReboot (message, args):
     message.message.reply ("Rebooting...")
-
-    if __name__ == '__main__':
-        print ("uh")
-        os.execv(__file__, sys.argv)
-        print ("huh")
-    else:
-        print (__name__)
+    BackgroundTasks.shouldReboot = True
 
 def commandShutdown (message, args):
     message.message.reply ("Shutting down...")
@@ -22,6 +16,9 @@ def commandShutdown (message, args):
 
 def commandKill (message, args):
     os._exit(1)
+
+#def commandListRunningCommands (message, args):
+    #TODO: Complete this command
 
 commandList = {
     "alive": commandAlive,
