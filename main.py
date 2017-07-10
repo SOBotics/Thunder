@@ -1,8 +1,9 @@
-
+#!/usr/bin/python
 import getpass
 import logging
 import os
 import threading
+import sys
 import BackgroundTasks
 
 import Utilities
@@ -29,6 +30,10 @@ backgroundThread = threading.Thread (target=BackgroundTasks.scheduleBackgroundTa
 
 backgroundThread.start()
 backgroundThread.join()
+
+#TODO: This triggers a permission denied error (OS X)
+if BackgroundTasks.shouldReboot == True:
+    os.execv(__file__, sys.argv)
 
 client.logout()
 
