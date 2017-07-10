@@ -2,10 +2,10 @@ import chatexchange
 import Utilities
 import string
 import threading
+import string
 from Commands import commandList
 
-#runningCommands = {"thread": None, "command": None, "user": None}
-runningCommands = [{"thread": threading.Thread, "command": None, "user": None}]
+runningCommands = [{"thread": threading.Thread, "command": "", "user": ""}]
 
 def runCommand (command, message, args):
     commandThread = threading.Thread (target=commandList[command], args=(message, args), kwargs={})
