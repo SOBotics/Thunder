@@ -6,10 +6,23 @@
 	objectVersion = 46;
 	objects = {
 
+/* Begin PBXFileReference section */
+		757925271F132CE800C00A67 /* BackgroundTasks.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = BackgroundTasks.py; sourceTree = "<group>"; };
+		75926A341F0F8E280050F956 /* main.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = main.py; sourceTree = "<group>"; };
+		75926A351F0F902C0050F956 /* Utilities.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = Utilities.py; sourceTree = "<group>"; };
+		75926A361F0FDD7D0050F956 /* Commands.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = Commands.py; sourceTree = "<group>"; };
+		75926A371F0FE68C0050F956 /* Chatcommunicate.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = Chatcommunicate.py; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
 /* Begin PBXGroup section */
 		75926A291F0F8E020050F956 = {
 			isa = PBXGroup;
 			children = (
+				75926A341F0F8E280050F956 /* main.py */,
+				75926A351F0F902C0050F956 /* Utilities.py */,
+				75926A361F0FDD7D0050F956 /* Commands.py */,
+				75926A371F0FE68C0050F956 /* Chatcommunicate.py */,
+				757925271F132CE800C00A67 /* BackgroundTasks.py */,
 			);
 			sourceTree = "<group>";
 		};
@@ -184,6 +197,7 @@
 				75926A331F0F8E020050F956 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
