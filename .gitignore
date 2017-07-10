@@ -1,0 +1,5 @@
+*.swp
+*.pyc
+*.ignorelist
+__pycache__
+
