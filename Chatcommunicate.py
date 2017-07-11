@@ -1,9 +1,11 @@
+#!/usr/bin/python
 import chatexchange
 import Utilities
 import string
 import threading
 import string
 from Commands import commandList
+import TrackBots
 
 runningCommands = [{"thread": threading.Thread, "command": "", "user": ""}]
 
@@ -63,6 +65,8 @@ def handleMessage (message, client):
     content = content.split ()
     
     shortName = Utilities.name [:-(len (Utilities.name) - Utilities.minNameCharacters)]
+
+    TrackBots.updateLastMessageTime (message.user.id)
 
     if content [0].startswith (shortName.lower()):
         del content [0]

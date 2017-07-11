@@ -1,8 +1,12 @@
+#!/usr/bin/python
 import chatexchange
 import threading
 import Chatcommunicate
 import time
 from Utilities import rooms
+import Utilities
+import TrackBots
+import chatexchangeExtension as ceExt
 
 shouldShutdown = False
 shouldReboot = False
@@ -23,6 +27,11 @@ def scheduleBackgroundTasks (client, roomIDs):
     inputListener = threading.Thread (target=listenForMessages, args=(client, roomIDs), kwargs={})
 
     inputListener.start()
+    
+    botListLen = len (TrackBots.botsList)
+    
+    #Load the list of bots from the pickle
+    TrackBots.botsList = Utilities.loadFromPickle ("bot_list.pickle")
 
     while (1):
         try:
@@ -36,6 +45,23 @@ def scheduleBackgroundTasks (client, roomIDs):
     
         if shouldShutdown == True or shouldReboot == True:
             break
+        
+        if len (TrackBots.botsList) != botListLen:
+            botListLen = len (TrackBots.botsList)
+            Utilities.saveToPickle ("bot_list.pickle", TrackBots.botsList)
+        
+        #Check if a bot is dead
+        for each_bot in TrackBots.botsList:
+            if TrackBots.isBotAlive (each_bot ["user_id"]) == False and each_bot ["status"] == "alive":
+                for each_room in each_bot ["rooms"]:
+                    ceExt.getRoomFromID (each_room).send_message ("@" + each_bot ["name"] + " alive")
+                time.sleep (5)
+
+                if TrackBots.isBotAlive (each_bot ["user_id"]) == False:
+                    for each_room in each_bot ["rooms"]:
+                        ceExt.getRoomFromID (each_room).send_message (each_bot ["name"] + " is dead. " + each_bot ["to_ping"])
+                            
+                    each_bot ["status"] = "dead"
 
         time.sleep (1)
 

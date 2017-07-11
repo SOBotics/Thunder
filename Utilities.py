@@ -1,3 +1,7 @@
+#!/usr/bin/python
+
+import pickle
+
 #The chat host
 host = "stackoverflow.com"
 
@@ -15,4 +19,24 @@ name = "@TestBot"
 
 #The number of characters of the name that must be included
 minNameCharacters = 4
+
+def saveToPickle (filename, list):
+    try:
+        with open (filename, 'wb') as toSave:
+            pickle.dump (list, toSave)
+    except IOError as err:
+        print ("File Error: " + err)
+    except pickle.PickleError as perr:
+        print ("Pickle Error: " + perr)
+
+def loadFromPickle (filename):
+    try:
+        with open (filename, "rb") as toRead:
+            return pickle.load (toRead)
+    except IOError as err:
+        print ("File Error: " + str(err))
+    except pickle.PickleError as perr:
+        print ("Pickle Error: " + str(perr))
+    
+    return []
 

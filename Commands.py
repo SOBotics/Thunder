@@ -1,8 +1,11 @@
+#!/usr/bin/python
 import chatexchange
 import os
 import sys
 import BackgroundTasks
 import Chatcommunicate
+import TrackBots
+import time
 
 def commandAlive (message, args):
     message.message.reply ("yes!")
@@ -18,6 +21,7 @@ def commandShutdown (message, args):
 def commandKill (message, args):
     os._exit(1)
 
+#TODO: Fix the output of this command (the message does not get formatted as code)
 def commandListRunningCommands (message, args):
     if len (Chatcommunicate.runningCommands) == 0:
         message.message.reply ("There are no running commands, so there is something wrong. cc @ashish")
@@ -51,6 +55,36 @@ def commandListRunningCommands (message, args):
 
     message.room.send_message (commandsMessage)
 
+def commandTrackBot (message, args):
+    newBot = {"name": "unknown", "user_id": -1, "to_ping": "unknown", "time_to_wait": -1, "last_message_time": time.time(), "rooms": [], "status": "alive"}
+    
+    for each_arg in args:
+        if each_arg.startswith ("name="):
+            newBot ["name"] = each_arg.replace ("name=", "")
+        elif each_arg.startswith("userid="):
+            newBot ["user_id"] = int(each_arg.replace ("userid=", ""))
+        elif each_arg.startswith("userID="):
+            newBot ["user_id"] = int(each_arg.replace ("userID=", ""))
+        elif each_arg.startswith("user_id="):
+            newBot ["user_id"] = int(each_arg.replace ("user_id=", ""))
+        elif each_arg.startswith("to_ping="):
+            newBot ["to_ping"] = each_arg.replace ("to_ping=", "")
+        elif each_arg.startswith("time_to_wait="):
+            newBot ["time_to_wait"] = int (each_arg.replace ("time_to_wait=", ""))
+        elif each_arg.startswith ("rooms="):
+            stripped_arg = each_arg.replace ("rooms=")
+            newBot ["rooms"] = stripped_arg.split (",")
+
+    if len (newBot["rooms"]) == 0:
+        newBot["rooms"] = [message.room.id]
+
+    if (newBot["name"] == "unknown") or (newBot ["user_id"] == -1) or (newBot ["to_ping"] == "unknown") or (newBot ["time_to_wait"] == -1):
+        message.message.reply ("Please provide adequate arguments: `name`, `user_id`, `to_ping`, `time_to_wait` and optionally `rooms`.")
+    else:
+        TrackBots.botsList.append (newBot)
+        message.message.reply ("Bot '" + newBot ["name"] + "' has been added to the bot watch list.")
+
+
 commandList = {
     "alive": commandAlive,
     "reboot": commandReboot,
@@ -58,4 +92,5 @@ commandList = {
     "shutdown": commandShutdown,
     "running commands": commandListRunningCommands,
     "rc": commandListRunningCommands,
+    "track * * * * ...": commandTrackBot,
 }

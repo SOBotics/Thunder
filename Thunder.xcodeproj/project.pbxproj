@@ -8,6 +8,8 @@
 
 /* Begin PBXFileReference section */
 		757925271F132CE800C00A67 /* BackgroundTasks.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = BackgroundTasks.py; sourceTree = "<group>"; };
+		7584C9481F1487B60073C66E /* TrackBots.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = TrackBots.py; sourceTree = "<group>"; };
+		7584C9491F1511B60073C66E /* chatexchangeExtension.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = chatexchangeExtension.py; sourceTree = "<group>"; };
 		75926A341F0F8E280050F956 /* main.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = main.py; sourceTree = "<group>"; };
 		75926A351F0F902C0050F956 /* Utilities.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = Utilities.py; sourceTree = "<group>"; };
 		75926A361F0FDD7D0050F956 /* Commands.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = Commands.py; sourceTree = "<group>"; };
@@ -23,6 +25,8 @@
 				75926A361F0FDD7D0050F956 /* Commands.py */,
 				75926A371F0FE68C0050F956 /* Chatcommunicate.py */,
 				757925271F132CE800C00A67 /* BackgroundTasks.py */,
+				7584C9491F1511B60073C66E /* chatexchangeExtension.py */,
+				7584C9481F1487B60073C66E /* TrackBots.py */,
 			);
 			sourceTree = "<group>";
 		};

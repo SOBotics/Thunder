@@ -64,12 +64,12 @@
       <EnvironmentVariables>
          <EnvironmentVariable
             key = "ThunderEmail"
-            value = "shivashish.ahuja@gmail.com"
+            value = "firealarm.sock@gmail.com"
             isEnabled = "YES">
          </EnvironmentVariable>
          <EnvironmentVariable
             key = "ThunderPass"
-            value = "Pwp12345"
+            value = "Getting thus wirless crime1"
             isEnabled = "YES">
          </EnvironmentVariable>
       </EnvironmentVariables>
