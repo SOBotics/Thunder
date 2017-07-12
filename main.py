@@ -5,11 +5,13 @@ import os
 import threading
 import sys
 import BackgroundTasks
-
 import Utilities
 import Chatcommunicate
 from Utilities import client
 import chatexchange
+
+#Change the directory
+#os.chdir ("~/.thunder")
 
 if 'ThunderEmail' in os.environ:
     email = os.environ['ThunderEmail']

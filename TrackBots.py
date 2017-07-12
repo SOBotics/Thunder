@@ -23,9 +23,9 @@ def updateTimeToWait (userID, timeToWait):
             break
 
 def deleteBot (userID):
-    for each_bot in botList:
+    for each_bot in botsList:
         if each_bot ["user_id"] == userID:
-            botList.remove (each_bot)
+            botsList.remove (each_bot)
 
 def isBotAlive (userID):
     alive = False
@@ -36,3 +36,10 @@ def isBotAlive (userID):
                 alive = True
 
     return alive
+
+def getBotIndexByID (userID):
+    for i in range (len (botsList)):
+        if botsList [i]["user_id"] == userID:
+            return i
+
+    return -1

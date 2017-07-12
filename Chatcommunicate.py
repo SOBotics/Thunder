@@ -57,8 +57,12 @@ def handleMessage (message, client):
     if not isinstance (message, chatexchange.events.MessagePosted):
         #Ignore non-message_posted events
         return
-
-    print ("%s: %s" % (message.user.name, message.content))
+    
+    
+    try:
+        print ("%s: %s" % (message.user.name, message.content))
+    except UnicodeEncodeError as err:
+        print ("Unicode error occurred: " + str (err))
 
     content = message.content.lower()
 

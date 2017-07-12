@@ -6,6 +6,8 @@ import BackgroundTasks
 import Chatcommunicate
 import TrackBots
 import time
+from tabulate import tabulate
+import re
 
 def commandAlive (message, args):
     message.message.reply ("yes!")
@@ -84,13 +86,55 @@ def commandTrackBot (message, args):
         TrackBots.botsList.append (newBot)
         message.message.reply ("Bot '" + newBot ["name"] + "' has been added to the bot watch list.")
 
+def commandUntrackBot (message, args):
+    TrackBots.deleteBot (int (args [0]))
+    message.message.reply ("Bot with userID '" + args [0] + "' has been deleted.")
+
+def commandUpdateBot (message, args):
+    userID = -1
+    if args [0].startswith("userid="):
+        userID = int (args[0].replace ("userid=", ""))
+    elif args [0].startswith("user_id="):
+        userID = int (args[0].replace ("user_id=", ""))
+    elif args [0].startswith("userID="):
+        userID = int (args[0].replace ("userID=", ""))
+
+    if userID == -1:
+        message.message.reply ("Please give the user id as the first argument (`userid=<userid>`).")
+
+    botIndex = TrackBots.getBotIndexByID (userID)
+
+    if botIndex == -1:
+        message.message.reply ("The userID you have given does not exist in the bot database.")
+        return
+
+    del args [0]
+
+    for each_arg in args:
+        if each_arg.startswith ("time_to_wait="):
+            TrackBots.botsList [botIndex]["time_to_wait"] = int (each_arg.replace ("time_to_wait=", ""))
+        elif each_arg.startswith ("to_ping="):
+                TrackBots.botsList [botIndex]["to_ping"] = each_arg.replace ("to_ping=", "")
+
+def commandListBots (message, args):
+    botList = list()
+    for each_bot in TrackBots.botsList:
+        botList.append ([each_bot["name"], each_bot ["status"]])
+    
+    table = tabulate (botList, headers=["Bot", "Status"],tablefmt="orgtbl")
+
+    print (repr (table))
+    message.room.send_message ("    " + re.sub ('\n', '\n    ', table))
 
 commandList = {
     "alive": commandAlive,
     "reboot": commandReboot,
     "kill": commandKill,
-    "shutdown": commandShutdown,
+    "stop": commandShutdown,
     "running commands": commandListRunningCommands,
     "rc": commandListRunningCommands,
     "track * * * * ...": commandTrackBot,
+    "untrack *": commandUntrackBot,
+    "update * * ...": commandUpdateBot,
+    "listbots": commandListBots,
 }

@@ -7,7 +7,7 @@ def getRoomFromID (roomID):
         if each_room.id == roomID:
             return each_room
 
-    return None
+    return each_room
 
 def isUserRO (roomID, userID):
     room = getRoomFromID (roomID)

@@ -9,13 +9,13 @@ host = "stackoverflow.com"
 rooms = list ()
 
 #The roomIDs the bot should join
-roomIDs = [123602, 1]
+roomIDs = [111347, 123602]
 
 myself = None
 client = None
 
 #The name of the bot. A message must start with this name to be recognized as a command
-name = "@TestBot"
+name = "@Thunder"
 
 #The number of characters of the name that must be included
 minNameCharacters = 4

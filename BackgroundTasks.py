@@ -18,6 +18,7 @@ def listenForMessages (client, roomIDs):
     for each_room in rooms:
         each_room.join()
         print ("Joined room " + str(each_room.id) + ".")
+        each_room.send_message("Thunder started.")
     
         each_room.watch (Chatcommunicate.handleMessage)
 
