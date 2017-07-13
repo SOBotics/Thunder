@@ -121,7 +121,7 @@ def commandUpdateBot (message, args):
 def commandListBots (message, args):
     botList = list()
     for each_bot in TrackBots.botsList:
-        botList.append ([each_bot["name"], each_bot ["status"], str(datetime.timedelta(seconds=(time.time - each_bot["last_message_time"]))) + " ago. "])
+        botList.append ([each_bot["name"], each_bot ["status"], str(datetime.timedelta(seconds=(time.time() - each_bot["last_message_time"]))) + " ago. "])
     
     table = tabulate (botList, headers=["Bot", "Status", "Last known alive time"],tablefmt="orgtbl")
 
