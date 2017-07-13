@@ -7,7 +7,7 @@ import string
 from Commands import commandList
 import TrackBots
 
-runningCommands = [{"thread": threading.Thread, "command": "", "user": ""}]
+runningCommands = list()
 
 def runCommand (command, message, args):
     commandThread = threading.Thread (target=commandList[command], args=(message, args), kwargs={})

@@ -5,6 +5,7 @@ import string
 import pickle
 
 botsList = [{"name": "", "user_id": -1, "to_ping": "", "time_to_wait": 900, "last_message_time": time.time(), "rooms": [], "status": ""}]
+#botsList = list()
 
 def addBot (name, user_id, to_ping, rooms, time_to_wait=900, last_message_time=time.time(), status="alive"):
     botsList.append ({"name": name, "user_id": user_id, "to_ping": to_ping, "time_to_wait": time_to_wait, "last_message_time": last_message_time, "rooms": rooms, "status": status})
