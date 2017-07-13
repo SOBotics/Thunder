@@ -12,6 +12,7 @@ def addBot (name, user_id, to_ping, rooms, time_to_wait=900, last_message_time=t
 def updateLastMessageTime (userID):
     for each_bot in botsList:
         if each_bot ["user_id"] == userID:
+            print ("Last message time for userID '" + str (each_bot["user_id"]) + "' has been updated.")
             each_bot ["last_message_time"] = time.time()
             each_bot ["status"] = "alive"
             break

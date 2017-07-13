@@ -56,7 +56,9 @@ def scheduleBackgroundTasks (client, roomIDs):
             if TrackBots.isBotAlive (each_bot ["user_id"]) == False and each_bot ["status"] == "alive":
                 for each_room in each_bot ["rooms"]:
                     ceExt.getRoomFromID (each_room).send_message ("@" + each_bot ["name"] + " alive")
-                time.sleep (5)
+                currentTime = time.time()
+                while (time.time() - currentTime != 7):
+                    temp = 1
 
                 if TrackBots.isBotAlive (each_bot ["user_id"]) == False:
                     for each_room in each_bot ["rooms"]:

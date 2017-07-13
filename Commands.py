@@ -125,6 +125,7 @@ def commandListBots (message, args):
 
     print (repr (table))
     message.room.send_message ("    " + re.sub ('\n', '\n    ', table))
+#    message.message.reply ("This instance is on the RPi which does not have the module 'tabulate', so there will be no list of bots.")
 
 commandList = {
     "alive": commandAlive,
