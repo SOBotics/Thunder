@@ -29,8 +29,10 @@ def commandListRunningCommands (message, args):
     commandList = list()
     for each_command in Chatcommunicate.runningCommands:
         commandList.append ([each_command["user"], each_command["command"]])
+    
+    table = tabulate (commandList, headers=["User", "Command"], tablefmt="orgtbl")
 
-    message.room.send_message (tabulate (commandList, headers=["User", "Command"], tablefmt="orgtbl"))
+    message.room.send_message ("    " + re.sub ('\n', '\n    ', table))
 
 def commandTrackBot (message, args):
     newBot = {"name": "unknown", "user_id": -1, "to_ping": "unknown", "time_to_wait": -1, "last_message_time": time.time(), "rooms": [], "status": "alive"}
