@@ -119,4 +119,5 @@ commandList = {
     "untrack *": commandUntrackBot,
     "update * * ...": commandUpdateBot,
     "listbots": commandListBots,
+    "pull": commandUpdateCode,
 }
