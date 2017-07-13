@@ -33,9 +33,9 @@ backgroundThread = threading.Thread (target=BackgroundTasks.scheduleBackgroundTa
 backgroundThread.start()
 backgroundThread.join()
 
-#TODO: This triggers a permission denied error (OS X)
+#This will work only if you are running the bot with 'nocrash.sh'.
 if BackgroundTasks.shouldReboot == True:
-    os.execv(__file__, sys.argv)
+    os.exit (2)
 
 client.logout()
 

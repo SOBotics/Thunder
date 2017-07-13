@@ -8,6 +8,8 @@ import TrackBots
 import time
 from tabulate import tabulate
 import re
+import datetime
+from subprocess import call
 
 def commandAlive (message, args):
     message.message.reply ("yes!")
@@ -119,13 +121,17 @@ def commandUpdateBot (message, args):
 def commandListBots (message, args):
     botList = list()
     for each_bot in TrackBots.botsList:
-        botList.append ([each_bot["name"], each_bot ["status"]])
+        botList.append ([each_bot["name"], each_bot ["status"], str(datetime.timedelta(seconds=(time.time - each_bot["last_message_time"]))) + " ago. "])
     
-    table = tabulate (botList, headers=["Bot", "Status"],tablefmt="orgtbl")
+    table = tabulate (botList, headers=["Bot", "Status", "Last known alive time"],tablefmt="orgtbl")
 
-    print (repr (table))
+    #The regex puts four spaces after every newline so that the table is formatted as code.
     message.room.send_message ("    " + re.sub ('\n', '\n    ', table))
-#    message.message.reply ("This instance is on the RPi which does not have the module 'tabulate', so there will be no list of bots.")
+
+def commandUpdateCode (message, args):
+    call (["git", "pull", "origin", "master"])
+    BackgroundTasks.shouldReboot = True
+    message.message.reply ("Updating...")
 
 commandList = {
     "alive": commandAlive,
