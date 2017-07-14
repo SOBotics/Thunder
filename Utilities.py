@@ -20,6 +20,8 @@ name = "@Thunder"
 #The number of characters of the name that must be included
 minNameCharacters = 4
 
+startLink = "[ [Thunder](https://github.com/SOBotics/Thunder) ]"
+
 def saveToPickle (filename, list):
     try:
         with open (filename, 'wb') as toSave:
