@@ -15,10 +15,10 @@ import datetime
 
 def commandAlive (message, args):
     secsAlive = time.time () - Utilities.startTime
-    time = divmod (secsAlive, 60)
+    uptime = divmod (secsAlive, 60)
 
 #message.message.reply (Utilities.botLink + " running since " + str (aliveTime.day - 1) + " days, " + str (aliveTime.hour) + " hours, " + str (aliveTime.minute) + " minutes and " + str (aliveTime.second) + " seconds.")
-    message.message.reply (Utilities.botLink + " running since " + str (time [0]) + " minutes and " + str (time [1]) + " seconds.")
+    message.message.reply (Utilities.botLink + " running since " + str (uptime [0]) + " minutes and " + str (uptime [1]) + " seconds.")
 
 def commandReboot (message, args):
     message.message.reply ("Rebooting...")
