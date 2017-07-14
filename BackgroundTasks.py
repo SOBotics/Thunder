@@ -51,6 +51,7 @@ def scheduleBackgroundTasks (client, roomIDs):
             pass
     
         if shouldShutdown == True or shouldReboot == True:
+            Utilities.saveToPickle("bot_list.pickle", TrackBots.botsList)
             break
         
         if len (TrackBots.botsList) != botListLen:
