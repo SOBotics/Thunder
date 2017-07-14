@@ -14,10 +14,11 @@ from subprocess import call
 import datetime
 
 def commandAlive (message, args):
-    secsAlive = datetime.timedelta(time.time () - Utilities.startTime)
-    aliveTime = datetime.datetime(1, 1, 1) + secsAlive
+    secsAlive = time.time () - Utilities.startTime
+    time = divmod (secsAlive, 60)
 
-    message.message.reply (Utilities.botLink + " running since " + str (aliveTime.day - 1) + " days, " + str (aliveTime.hour) + " hours, " + str (aliveTime.minute) + " minutes and " + str (aliveTime.second) + " seconds.")
+#message.message.reply (Utilities.botLink + " running since " + str (aliveTime.day - 1) + " days, " + str (aliveTime.hour) + " hours, " + str (aliveTime.minute) + " minutes and " + str (aliveTime.second) + " seconds.")
+    message.message.reply (Utilities.botLink + " running since " + str (time [0]) + " minutes and " + str (time [1]) + " seconds.")
 
 def commandReboot (message, args):
     message.message.reply ("Rebooting...")
