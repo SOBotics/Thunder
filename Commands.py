@@ -101,7 +101,7 @@ def commandListBots (message, args):
     table = tabulate (botList, headers=["Bot", "Status", "Last known alive time"], tablefmt="orgtbl")
 
     #The regex puts four spaces after every newline so that the table is formatted as code.
-    print (repr(table))
+    print (repr("    " + re.sub ('\n', '\n    ', table)))
     message.room.send_message ("    " + re.sub ('\n', '\n    ', table))
 
 def commandUpdateCode (message, args):
