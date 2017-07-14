@@ -98,9 +98,10 @@ def commandListBots (message, args):
     for each_bot in TrackBots.botsList:
         botList.append ([each_bot["name"], each_bot ["status"], str(datetime.timedelta(seconds=(time.time() - each_bot["last_message_time"]))) + " ago. "])
     
-    table = tabulate (botList, headers=["Bot", "Status", "Last known alive time"],tablefmt="orgtbl")
+    table = tabulate (botList, headers=["Bot", "Status", "Last known alive time"], tablefmt="orgtbl")
 
     #The regex puts four spaces after every newline so that the table is formatted as code.
+    print (repr(table))
     message.room.send_message ("    " + re.sub ('\n', '\n    ', table))
 
 def commandUpdateCode (message, args):
