@@ -33,6 +33,12 @@ def scheduleBackgroundTasks (client, roomIDs):
     
     #Load the list of bots from the pickle
     TrackBots.botsList = Utilities.loadFromPickle ("bot_list.pickle")
+    
+    #Print "@Bots alive" in SOBotics
+    for each_room in rooms:
+        if each_room.id == 111347:
+            each_room.send_message("@bots alive")
+            time.sleep (5)
 
     while (1):
         try:
