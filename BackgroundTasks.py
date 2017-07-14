@@ -37,8 +37,8 @@ def scheduleBackgroundTasks (client, roomIDs):
     #Print "@Bots alive" in SOBotics
     for each_room in rooms:
         if each_room.id == 111347:
-            each_room.send_message("@bots alive")
-            time.sleep (5)
+            each_room.send_message("choo choo")
+            time.sleep (10)
 
     while (1):
         try:
