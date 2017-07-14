@@ -14,7 +14,7 @@ from subprocess import call
 import datetime
 
 def commandAlive (message, args):
-    secsAlive = time.time () - Utilities.startTime
+    secsAlive = datetime.timedelta(time.time () - Utilities.startTime)
     aliveTime = datetime.datetime(1, 1, 1) + secsAlive
 
     message.message.reply (Utilities.botLink + " running since " + str (aliveTime.day - 1) + " days, " + str (aliveTime.hour) + " hours, " + str (aliveTime.minute) + " minutes and " + str (aliveTime.second) + " seconds.")
