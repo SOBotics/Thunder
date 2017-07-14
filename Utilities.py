@@ -20,7 +20,12 @@ name = "@Thunder"
 #The number of characters of the name that must be included
 minNameCharacters = 4
 
+botLink = "[Thunder](https://github.com/SOBotics/Thunder)"
+
 startLink = "[ [Thunder](https://github.com/SOBotics/Thunder) ]"
+
+#The epoch time when the bot started
+startTime = 0
 
 def saveToPickle (filename, list):
     try:

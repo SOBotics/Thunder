@@ -9,9 +9,9 @@ import Utilities
 import Chatcommunicate
 from Utilities import client
 import chatexchange
+import time
 
-#Change the directory
-#os.chdir ("~/.thunder")
+Utilities.startTime = time.time()
 
 if 'ThunderEmail' in os.environ:
     email = os.environ['ThunderEmail']

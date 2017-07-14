@@ -6,13 +6,18 @@ import BackgroundTasks
 import Chatcommunicate
 import TrackBots
 import time
+import Utilities
 from tabulate import tabulate
 import re
 import datetime
 from subprocess import call
+import datetime
 
 def commandAlive (message, args):
-    message.message.reply ("yes!")
+    secsAlive = time.time () - Utilities.startTime
+    aliveTime = datetime.datetime(1, 1, 1) + secsAlive
+
+    message.message.reply (Utilities.botLink + " running since " + str (aliveTime.day - 1) + " days, " + str (aliveTime.hour) + " hours, " + str (aliveTime.minute) + " minutes and " + str (aliveTime.second) + " seconds.")
 
 def commandReboot (message, args):
     message.message.reply ("Rebooting...")
