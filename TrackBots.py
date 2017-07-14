@@ -3,6 +3,7 @@ import chatexchange
 import time
 import string
 import pickle
+import Utilities
 
 botsList = [{"name": "", "user_id": -1, "to_ping": "", "time_to_wait": 900, "last_message_time": time.time(), "rooms": [], "status": ""}]
 #botsList = list()
@@ -45,3 +46,9 @@ def getBotIndexByID (userID):
             return i
 
     return -1
+
+def saveBotList ():
+    Utilities.saveToPickle ("bot_list.pickle", botsList)
+
+def loadBotList ():
+    return Utilities.loadFromPickle ("bot_list.pickle")

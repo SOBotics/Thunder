@@ -1,6 +1,7 @@
 #!/usr/bin/python
 
 import pickle
+import chatexchange
 
 #The chat host
 host = "stackoverflow.com"
@@ -12,7 +13,7 @@ rooms = list ()
 roomIDs = [111347, 123602]
 
 myself = None
-client = None
+client = chatexchange.Client
 
 #The name of the bot. A message must start with this name to be recognized as a command
 name = "@Thunder"

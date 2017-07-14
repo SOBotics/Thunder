@@ -1,6 +1,7 @@
 #!/usr/bin/python
 import chatexchange
 import Utilities
+import QuietRooms
 
 def getRoomFromID (roomID):
     for each_room in Utilities.rooms:
@@ -17,3 +18,15 @@ def isUserRO (roomID, userID):
             return True
 
     return False
+
+def postMessage (room, message):
+    if QuietRooms.isRoomQuiet (room.id) == True:
+        return
+
+    room.send_message (message)
+
+def postReply (message, text):
+    if QuietRooms.isRoomQuiet (message.room.id) == True:
+        return
+
+    message.message.reply (text)

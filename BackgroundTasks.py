@@ -7,6 +7,8 @@ from Utilities import rooms
 import Utilities
 import TrackBots
 import chatexchangeExtension as ceExt
+from chatexchangeExtension import postMessage, postReply
+import QuietRooms
 
 shouldShutdown = False
 shouldReboot = False
@@ -18,10 +20,18 @@ def listenForMessages (client, roomIDs):
     for each_room in rooms:
         each_room.join()
         print ("Joined room " + str(each_room.id) + ".")
-        each_room.send_message(Utilities.startLink + " Thunder started.")
+        postMessage(each_room, Utilities.startLink + " Thunder started.")
     
         each_room.watch (Chatcommunicate.handleMessage)
 
+    QuietRooms.quietRooms = QuietRooms.loadQuietRoomList()
+
+    for each_id in QuietRooms.quietRooms:
+        rooms.append (client.get_room (each_id))
+        rooms [len (rooms) - 1].join()
+        print ("Joined quiet room " + str (rooms [len (rooms) - 1].id) + ".")
+
+        rooms [len (rooms) - 1].watch (Chatcommunicate.handleMessage)
 
 def scheduleBackgroundTasks (client, roomIDs):
     #Listen for input
@@ -30,15 +40,10 @@ def scheduleBackgroundTasks (client, roomIDs):
     inputListener.start()
     
     botListLen = len (TrackBots.botsList)
+    quietRoomLen = len (QuietRooms.quietRooms)
     
     #Load the list of bots from the pickle
-    TrackBots.botsList = Utilities.loadFromPickle ("bot_list.pickle")
-    
-    #Print "@Bots alive" in SOBotics
-    #for each_room in rooms:
-    #if each_room.id == 111347:
-    #each_room.send_message("choo choo")
-    #time.sleep (10)
+    TrackBots.botsList = TrackBots.loadBotList()
 
     while (1):
         try:
@@ -51,18 +56,23 @@ def scheduleBackgroundTasks (client, roomIDs):
             pass
     
         if shouldShutdown == True or shouldReboot == True:
-            Utilities.saveToPickle("bot_list.pickle", TrackBots.botsList)
+            TrackBots.saveBotList()
+            QuietRooms.saveQuietRoomList ()
             break
         
         if len (TrackBots.botsList) != botListLen:
             botListLen = len (TrackBots.botsList)
-            Utilities.saveToPickle ("bot_list.pickle", TrackBots.botsList)
-        
+            TrackBots.saveBotList()
+
+        if len (QuietRooms.quietRooms) != quietRoomLen:
+            quietRoomLen = len (QuietRooms.quietRooms)
+            QuietRooms.saveQuietRoomList()
+    
         #Check if a bot is dead
         for each_bot in TrackBots.botsList:
             if TrackBots.isBotAlive (each_bot ["user_id"]) == False and each_bot ["status"] == "alive":
                 for each_room in each_bot ["rooms"]:
-                    ceExt.getRoomFromID (each_room).send_message ("@" + each_bot ["name"] + " alive")
+                    postMessage (ceExt.getRoomFromID (each_room), "@" + each_bot ["name"] + " alive")
                 currentTime = time.time()
                 while (time.time() - currentTime < 30):
                     if TrackBots.isBotAlive (each_bot ["user_id"]) == True:
@@ -70,7 +80,7 @@ def scheduleBackgroundTasks (client, roomIDs):
 
                 if TrackBots.isBotAlive (each_bot ["user_id"]) == False:
                     for each_room in each_bot ["rooms"]:
-                        ceExt.getRoomFromID (each_room).send_message (Utilities.startLink + " " + each_bot ["name"] + " is dead (" + each_bot ["to_ping"] + ").")
+                        postMessage(ceExt.getRoomFromID (each_room), Utilities.startLink + " " + each_bot ["name"] + " is dead (" + each_bot ["to_ping"] + ").")
                             
                     each_bot ["status"] = "dead"
 

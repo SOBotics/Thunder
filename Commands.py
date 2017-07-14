@@ -12,20 +12,25 @@ import re
 import datetime
 from subprocess import call
 import datetime
+from chatexchangeExtension import postMessage
+from chatexchangeExtension import postReply
+import QuietRooms
 
 def commandAlive (message, args):
     secsAlive = time.time () - Utilities.startTime
     uptime = divmod (secsAlive, 60)
+    
+    postReply (message, Utilities.botLink + " running since " + str (int(uptime [0])) + " minutes and " + str (int(uptime [1])) + " seconds.")
 
-#message.message.reply (Utilities.botLink + " running since " + str (aliveTime.day - 1) + " days, " + str (aliveTime.hour) + " hours, " + str (aliveTime.minute) + " minutes and " + str (aliveTime.second) + " seconds.")
-    message.message.reply (Utilities.botLink + " running since " + str (int(uptime [0])) + " minutes and " + str (int(uptime [1])) + " seconds.")
+def commandHelp (message, args):
+    postReply (message, "I'm " + Utilities.botLink + ", a status monitoring bot for SOBotics.")
 
 def commandReboot (message, args):
-    message.message.reply ("Rebooting...")
+    postReply(message, "Rebooting...")
     BackgroundTasks.shouldReboot = True
 
 def commandShutdown (message, args):
-    message.message.reply ("Shutting down...")
+    postReply(message, "Shutting down...")
     BackgroundTasks.shouldShutdown = True
 
 def commandKill (message, args):
@@ -38,7 +43,7 @@ def commandListRunningCommands (message, args):
     
     table = tabulate (commandList, headers=["User", "Command"], tablefmt="orgtbl")
 
-    message.room.send_message ("    " + re.sub ('\n', '\n    ', table))
+    postMessage (message.room, "    " + re.sub ('\n', '\n    ', table))
 
 def commandTrackBot (message, args):
     newBot = {"name": "unknown", "user_id": -1, "to_ping": "unknown", "time_to_wait": -1, "last_message_time": time.time(), "rooms": [], "status": "alive"}
@@ -64,14 +69,14 @@ def commandTrackBot (message, args):
         newBot["rooms"] = [message.room.id]
 
     if (newBot["name"] == "unknown") or (newBot ["user_id"] == -1) or (newBot ["to_ping"] == "unknown") or (newBot ["time_to_wait"] == -1):
-        message.message.reply ("Please provide adequate arguments: `name`, `user_id`, `to_ping`, `time_to_wait` and optionally `rooms`.")
+        postReply (message, "Please provide adequate arguments: `name`, `user_id`, `to_ping`, `time_to_wait` and optionally `rooms`.")
     else:
         TrackBots.botsList.append (newBot)
-        message.message.reply ("Bot '" + newBot ["name"] + "' has been added to the bot watch list.")
+        postReply (message, "Bot '" + newBot ["name"] + "' has been added to the bot watch list.")
 
 def commandUntrackBot (message, args):
     TrackBots.deleteBot (int (args [0]))
-    message.message.reply ("Bot with userID '" + args [0] + "' has been deleted.")
+    postReply(message, "Bot with userID '" + args [0] + "' has been deleted.")
 
 def commandUpdateBot (message, args):
     userID = -1
@@ -83,12 +88,12 @@ def commandUpdateBot (message, args):
         userID = int (args[0].replace ("userID=", ""))
 
     if userID == -1:
-        message.message.reply ("Please give the user id as the first argument (`userid=<userid>`).")
+        postReply (message, "Please give the user id as the first argument (`userid=<userid>`).")
 
     botIndex = TrackBots.getBotIndexByID (userID)
 
     if botIndex == -1:
-        message.message.reply ("The userID you have given does not exist in the bot database.")
+        postReply (message, "The userID you have given does not exist in the bot database.")
         return
 
     del args [0]
@@ -99,6 +104,8 @@ def commandUpdateBot (message, args):
         elif each_arg.startswith ("to_ping="):
                 TrackBots.botsList [botIndex]["to_ping"] = each_arg.replace ("to_ping=", "")
 
+    postReply (message, "The bot has been updated.")
+
 def commandListBots (message, args):
     botList = list()
     for each_bot in TrackBots.botsList:
@@ -108,12 +115,43 @@ def commandListBots (message, args):
 
     #The regex puts four spaces after every newline so that the table is formatted as code.
     print (repr("    " + re.sub ('\n', '\n    ', table)))
-    message.room.send_message ("    " + re.sub ('\n', '\n    ', table))
+    postMessage (message.room, "    " + re.sub ('\n', '\n    ', table))
 
 def commandUpdateCode (message, args):
     call (["git", "pull", "origin", "master"])
     BackgroundTasks.shouldReboot = True
-    message.message.reply ("Updating...")
+    postReply (message, "Updating...")
+
+def commandAddQuietRoom (message, args):
+    roomID = 0
+    if args [0].startswith ("roomid="):
+        roomID = int (args [0].replace ("roomid=", ""))
+    else:
+        roomID = int (args [0])
+
+    QuietRooms.addQuietRoom (roomID)
+
+    postReply (message, "Quiet room with id '" + str (roomID) + "' has been added.")
+
+def commandDeleteQuietRoom (message, args):
+    roomID = 0
+    if args [0].startswith ("roomid="):
+        roomID = int (args [0].replace ("roomid=", ""))
+    else:
+        roomID = int (args [0])
+
+    QuietRooms.deleteQuietRoom (roomID)
+
+    postReply (message, "Quiet room with id '" + str (roomID) + "' has been deleted.")
+
+def commandListRooms (message, args):
+    roomList = list()
+    for each_room in Utilities.rooms:
+        roomList.append ([each_room.name, each_room.id, "Normal" if QuietRooms.isRoomQuiet (each_room.id) != True else "Quiet"])
+
+    table = tabulate (roomList, headers=["Name", "Room ID", "Type"], tablefmt="orgtbl")
+    print (repr (table))
+    postMessage (message.room, "    " + re.sub ('\n', '\n    ', table))
 
 commandList = {
     "alive": commandAlive,
@@ -127,4 +165,11 @@ commandList = {
     "update * * ...": commandUpdateBot,
     "listbots": commandListBots,
     "pull": commandUpdateCode,
+    "help": commandHelp,
+    "status": commandAlive,
+    "uptime": commandAlive,
+    "commands": commandHelp,
+    "addquiet *": commandAddQuietRoom,
+    "deletequiet *": commandDeleteQuietRoom,
+    "listrooms": commandListRooms,
 }

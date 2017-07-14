@@ -26,6 +26,7 @@ else:
 print ("Logging in...")
 
 client = chatexchange.Client(Utilities.host, email, password)
+Utilities.client = client
 myself = client.get_me()
 
 backgroundThread = threading.Thread (target=BackgroundTasks.scheduleBackgroundTasks, args=(client, Utilities.roomIDs), kwargs={})
@@ -35,7 +36,7 @@ backgroundThread.join()
 
 #This will work only if you are running the bot with 'nocrash.sh'.
 if BackgroundTasks.shouldReboot == True:
-    os.exit (2)
+    os._exit (2)
 
 client.logout()
 

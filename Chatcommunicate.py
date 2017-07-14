@@ -6,6 +6,7 @@ import threading
 import string
 from Commands import commandList
 import TrackBots
+import QuietRooms
 
 runningCommands = list()
 
@@ -58,11 +59,14 @@ def handleMessage (message, client):
         #Ignore non-message_posted events
         return
     
-    
     try:
         print ("%s: %s" % (message.user.name, message.content))
     except UnicodeEncodeError as err:
         print ("Unicode error occurred: " + str (err))
+
+    if QuietRooms.isRoomQuiet (message.room.id):
+        TrackBots.updateLastMessageTime (message.user.id)
+        return 
 
     content = message.content.lower()
 
