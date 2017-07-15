@@ -131,7 +131,7 @@ def commandAddQuietRoom (message, args):
         if each_arg.startswith("roomid="):
             roomID = int (each_arg.replace ("roomid=", ""))
         elif each_arg.startswith("interval="):
-            interval = int (each_arg.replace ("interval=", "")))
+            interval = int (each_arg.replace ("interval=", ""))
 
     if roomID == 0:
         postReply (message, "Please provide a `roomid=` and optionally an `interval=`.")
