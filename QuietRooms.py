@@ -4,17 +4,24 @@ import Chatcommunicate
 
 quietRooms = list()
 
-def addQuietRoom (roomID):
+def getQuietRoomByID (roomID):
+    for each_room in quietRooms:
+        if each_room ["room_id"] == roomID:
+            return each_room
+
+    return None
+
+def addQuietRoom (roomID, interval=120):
     if isRoomQuiet (roomID) == True:
         return
     
     room = Utilities.client.get_room(roomID)
     room.join()
-    room.watch (Chatcommunicate.handleMessage)
+    room.watch_polling (Chatcommunicate.handleMessage, interval)
 
     Utilities.rooms.append (room)
 
-    quietRooms.append (roomID)
+    quietRooms.append ({"room_id": roomID, "interval": interval})
 
 def deleteQuietRoom (roomID):
     if isRoomQuiet (roomID) == False:
@@ -26,11 +33,12 @@ def deleteQuietRoom (roomID):
             Utilities.rooms.remove (each_room)
             break
 
-    quietRooms.remove (roomID)
+    quietRoom = getQuietRoomByID(roomID)
+    quietRooms.remove (quietRoom)
 
 def isRoomQuiet (roomID):
     for each_room in quietRooms:
-        if each_room == roomID:
+        if each_room ["room_id"] == roomID:
             return True
 
     return False

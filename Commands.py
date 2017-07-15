@@ -74,6 +74,7 @@ def commandTrackBot (message, args):
         TrackBots.botsList.append (newBot)
         postReply (message, "Bot '" + newBot ["name"] + "' has been added to the bot watch list.")
 
+#TODO: Make this take args starting with 'userid='
 def commandUntrackBot (message, args):
     TrackBots.deleteBot (int (args [0]))
     postReply(message, "Bot with userID '" + args [0] + "' has been deleted.")
@@ -124,12 +125,19 @@ def commandUpdateCode (message, args):
 
 def commandAddQuietRoom (message, args):
     roomID = 0
-    if args [0].startswith ("roomid="):
-        roomID = int (args [0].replace ("roomid=", ""))
-    else:
-        roomID = int (args [0])
+    interval = 120
 
-    QuietRooms.addQuietRoom (roomID)
+    for each_arg in args:
+        if each_arg.startswith("roomid="):
+            roomID = int (each_arg.replace ("roomid=", ""))
+        elif each_arg.startswith("interval="):
+            interval = int (each_arg.replace ("interval=", "")))
+
+    if roomID == 0:
+        postReply (message, "Please provide a `roomid=` and optionally an `interval=`.")
+        return
+
+    QuietRooms.addQuietRoom (roomID, interval)
 
     postReply (message, "Quiet room with id '" + str (roomID) + "' has been added.")
 
@@ -138,7 +146,8 @@ def commandDeleteQuietRoom (message, args):
     if args [0].startswith ("roomid="):
         roomID = int (args [0].replace ("roomid=", ""))
     else:
-        roomID = int (args [0])
+        postReply (message, "Please provide a `roomid=`.")
+        return
 
     QuietRooms.deleteQuietRoom (roomID)
 

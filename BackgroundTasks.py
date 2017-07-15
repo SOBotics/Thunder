@@ -26,12 +26,12 @@ def listenForMessages (client, roomIDs):
 
     QuietRooms.quietRooms = QuietRooms.loadQuietRoomList()
 
-    for each_id in QuietRooms.quietRooms:
-        rooms.append (client.get_room (each_id))
+    for each_room in QuietRooms.quietRooms:
+        rooms.append (client.get_room (each_room ["room_id"]))
         rooms [len (rooms) - 1].join()
         print ("Joined quiet room " + str (rooms [len (rooms) - 1].id) + ".")
 
-        rooms [len (rooms) - 1].watch (Chatcommunicate.handleMessage)
+        rooms [len (rooms) - 1].watch_polling (Chatcommunicate.handleMessage, each_room ["interval"])
 
 def scheduleBackgroundTasks (client, roomIDs):
     #Listen for input
