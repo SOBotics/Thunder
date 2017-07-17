@@ -41,6 +41,7 @@ def scheduleBackgroundTasks (client, roomIDs):
     
     botListLen = len (TrackBots.botsList)
     quietRoomLen = len (QuietRooms.quietRooms)
+    lastSaveTime = time.time()
     
     #Load the list of bots from the pickle
     TrackBots.botsList = TrackBots.loadBotList()
@@ -66,6 +67,12 @@ def scheduleBackgroundTasks (client, roomIDs):
 
         if len (QuietRooms.quietRooms) != quietRoomLen:
             quietRoomLen = len (QuietRooms.quietRooms)
+            QuietRooms.saveQuietRoomList()
+        
+        #Save files every 60 seconds.
+        if time.time() - lastSaveTime >= 60:
+            lastSaveTime = time.time()
+            TrackBots.saveBotList()
             QuietRooms.saveQuietRoomList()
     
         #Check if a bot is dead

@@ -19,8 +19,12 @@ import QuietRooms
 def commandAlive (message, args):
     secsAlive = time.time () - Utilities.startTime
     uptime = divmod (secsAlive, 60)
+    secs = uptime [1]
+    hrUptime = divmod (uptime [0], 60)
+    mins = hrUptime [1]
+    hrs = hrUptime [0]
     
-    postReply (message, Utilities.botLink + " running since " + str (int(uptime [0])) + " minutes and " + str (int(uptime [1])) + " seconds.")
+    postReply (message, Utilities.botLink + " running since " + str (hrs) + " hours, " + str (mins) + " minutes and " + str (secs) + " seconds.")
 
 def commandHelp (message, args):
     postReply (message, "I'm " + Utilities.botLink + ", a status monitoring bot for SOBotics.")
