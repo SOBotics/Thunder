@@ -7,6 +7,7 @@ import string
 from Commands import commandList
 import TrackBots
 import QuietRooms
+import time
 
 runningCommands = list()
 
@@ -63,6 +64,9 @@ def handleMessage (message, client):
         print ("%s: %s" % (message.user.name, message.content))
     except UnicodeEncodeError as err:
         print ("Unicode error occurred: " + str (err))
+
+    if message.user.id == Utilities.myUserID:
+        Utilities.lastMessageTime = time.time()
 
     if QuietRooms.isRoomQuiet (message.room.id):
         TrackBots.updateLastMessageTime (message.user.id)

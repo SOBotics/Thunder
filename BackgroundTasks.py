@@ -34,6 +34,8 @@ def listenForMessages (client, roomIDs):
         rooms [len (rooms) - 1].watch_polling (Chatcommunicate.handleMessage, each_room ["interval"])
 
 def scheduleBackgroundTasks (client, roomIDs):
+    global shouldReboot
+    
     #Listen for input
     inputListener = threading.Thread (target=listenForMessages, args=(client, roomIDs), kwargs={})
 
@@ -78,8 +80,22 @@ def scheduleBackgroundTasks (client, roomIDs):
         #Check if a bot is dead
         for each_bot in TrackBots.botsList:
             if TrackBots.isBotAlive (each_bot ["user_id"]) == False and each_bot ["status"] == "alive":
+                timeBeforeMessage = time.time()
+                
                 for each_room in each_bot ["rooms"]:
                     postMessage (ceExt.getRoomFromID (each_room), "@" + each_bot ["name"] + " alive")
+                
+                #Check if the bot is not listening to messages.
+                while time.time() - timeBeforeMessage < 10:
+                    if (time.time () - Utilities.lastMessageTime) < (time.time () - timeBeforeMessage):
+                        break
+                
+                if time.time () - Utilities.lastMessageTime > 10:
+                    #The bot is not listening to messages anymore; post a message indicating that and then auto-reboot.
+                    ceExt.postMessageInRooms (Utilities.rooms, Utilities.startLink + "I am not listening to chat messages (cc @ashish). Auto-reboot in progress...")
+                    print ("I am not listening to chat messages. Auto-reboot in progress...")
+                    shouldReboot = True
+                
                 currentTime = time.time()
                 while (time.time() - currentTime < 30):
                     if TrackBots.isBotAlive (each_bot ["user_id"]) == True:

@@ -13,10 +13,14 @@ rooms = list ()
 roomIDs = [111347, 123602]
 
 myself = None
+myUserID = -1
 client = chatexchange.Client
 
 #The name of the bot. A message must start with this name to be recognized as a command
 name = "@Thunder"
+
+#The time of my last message posted in the room.
+lastMessageTime = 0
 
 #The number of characters of the name that must be included
 minNameCharacters = 4

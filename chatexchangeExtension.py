@@ -19,6 +19,10 @@ def isUserRO (roomID, userID):
 
     return False
 
+def postMessageInRooms (rooms, message):
+    for each_room in rooms:
+        postMessage (each_room, message)
+
 def postMessage (room, message):
     if QuietRooms.isRoomQuiet (room.id) == True:
         return
