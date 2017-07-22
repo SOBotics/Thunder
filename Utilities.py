@@ -25,9 +25,9 @@ lastMessageTime = 0
 #The number of characters of the name that must be included
 minNameCharacters = 4
 
-botLink = "[Thunder](https://github.com/SOBotics/Thunder)"
+botLink = "[Thunder](https://git.io/v7kXG)"
 
-startLink = "[ [Thunder](https://github.com/SOBotics/Thunder) ]"
+startLink = "[ [Thunder](https://git.io/v7kXG) ]"
 
 #The epoch time when the bot started
 startTime = 0
