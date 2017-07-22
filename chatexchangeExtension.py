@@ -27,7 +27,7 @@ def postMessage (room, message):
     if QuietRooms.isRoomQuiet (room.id) == True:
         return
 
-    room.send_message (message)
+    room.send_message (message, length_check=False)
 
 def postReply (message, text):
     if QuietRooms.isRoomQuiet (message.room.id) == True:
