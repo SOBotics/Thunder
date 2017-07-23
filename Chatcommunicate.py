@@ -68,17 +68,21 @@ def handleMessage (message, client):
     if message.user.id == Utilities.myUserID:
         Utilities.lastMessageTime = time.time()
 
-    if QuietRooms.isRoomQuiet (message.room.id):
-        TrackBots.updateLastMessageTime (message.user.id)
-        return 
+    TrackBots.updateLastMessageTime (message.user.id)
 
-    content = message.content.lower()
+    if QuietRooms.isRoomQuiet (message.room.id):
+        return
+    
+    try:
+        content = message.content.lower()
+    except AttributeError as attErr:
+        print ("Attribute error occurred: ")
+        print (attErr)
+        return
 
     content = content.split ()
     
     shortName = Utilities.name [:-(len (Utilities.name) - Utilities.minNameCharacters)]
-
-    TrackBots.updateLastMessageTime (message.user.id)
 
     if content [0].startswith (shortName.lower()):
         del content [0]
