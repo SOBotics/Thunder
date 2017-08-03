@@ -83,10 +83,18 @@ def is_room_quiet(room_id):
     return False
 
 def save_room_list():
-    Utilities.saveToPickle("quietroomlist.pickle", quiet_rooms)
+    dict_list = list()
+
+    for each_room in quiet_rooms:
+        dict_list.append({"room_id": each_room.room_id, "interval": each_room.interval})
+
+    Utilities.saveToPickle("quietroomlist.pickle", dict_list)
 
 def load_room_list():
-    quiet_rooms = Utilities.loadFromPickle("quietroomlist.pickle")
+    dict_list = Utilities.loadFromPickle("quietroomlist.pickle")
+
+    for each_dict in dict_list:
+        quiet_rooms.append(QuietRoom(dict_list["room_id"], dict_list["interval"]
 
 class QuietRoom:
     def __init__(self, room_id, interval):

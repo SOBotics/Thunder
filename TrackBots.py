@@ -86,7 +86,7 @@ def load_bot_list():
     dict_list = Utilities.loadFromPickle("botlist.pickle")
 
     for each_dict in dict_list:
-        bots_list.append(TrackBot(each_dict["name"], each_dict["user_id"], each_dict["to_ping"], each_dict["rooms"], each_dict["time_to_wait"], each_dict["last_message_time"], each_dict["alive"]))
+        bots_list.append(add_bot(each_dict["name"], each_dict["user_id"], each_dict["to_ping"], each_dict["rooms"], each_dict["time_to_wait"], each_dict["last_message_time"], each_dict["alive"]))
 
 class TrackBot:
     def __init__(self, name, user_id, to_ping, rooms, time_to_wait=900, 
