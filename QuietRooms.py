@@ -94,7 +94,7 @@ def load_room_list():
     dict_list = Utilities.loadFromPickle("quietroomlist.pickle")
 
     for each_dict in dict_list:
-        quiet_rooms.append(QuietRoom(dict_list["room_id"], dict_list["interval"]
+        quiet_rooms.append(QuietRoom(dict_list["room_id"], dict_list["interval"]))
 
 class QuietRoom:
     def __init__(self, room_id, interval):
