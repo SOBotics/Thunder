@@ -9,9 +9,21 @@ import Utilities
 import Chatcommunicate
 from Utilities import client
 import chatexchange
+import pyRedunda
 import time
+from pathlib import Path
 
 Utilities.startTime = time.time()
+
+#Check for Redunda key and location
+redunda_file = Path("~/redunda_key.txt")
+if redunda_file.is_file():
+    with open("~/redunda_key.txt", "r") as redunda_file:
+        redunda_key = redunda_file.read()
+    
+    Utilities.Redunda = pyRedunda.Redunda (redunda_key, Utilities.files_to_sync, "production")
+    Utilities.Redunda.sendStatusPing()
+    Utilities.location = Utilities.Redunda.location
 
 if 'ThunderEmail' in os.environ:
     email = os.environ['ThunderEmail']

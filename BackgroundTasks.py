@@ -24,14 +24,11 @@ def listenForMessages (client, roomIDs):
     
         each_room.watch (Chatcommunicate.handleMessage)
 
-    QuietRooms.quietRooms = QuietRooms.loadQuietRoomList()
+    QuietRooms.load_room_list()
 
-    for each_room in QuietRooms.quietRooms:
-        rooms.append (client.get_room (each_room ["room_id"]))
-        rooms [len (rooms) - 1].join()
-        print ("Joined quiet room " + str (rooms [len (rooms) - 1].id) + ".")
-
-        rooms [len (rooms) - 1].watch_polling (Chatcommunicate.handleMessage, each_room ["interval"])
+    for each_room in QuietRooms.quiet_rooms:
+        print ("Joined quiet room " + str (each_room.room_id) + ".")
+        each_room.watch_room()
 
 def scheduleBackgroundTasks (client, roomIDs):
     global shouldReboot
@@ -41,12 +38,12 @@ def scheduleBackgroundTasks (client, roomIDs):
 
     inputListener.start()
     
-    botListLen = len (TrackBots.botsList)
-    quietRoomLen = len (QuietRooms.quietRooms)
+    botListLen = len (TrackBots.bots_list)
+    quietRoomLen = len (QuietRooms.quiet_rooms)
     lastSaveTime = time.time()
     
     #Load the list of bots from the pickle
-    TrackBots.botsList = TrackBots.loadBotList()
+    TrackBots.load_bot_list()
 
     while (1):
         try:
@@ -59,31 +56,31 @@ def scheduleBackgroundTasks (client, roomIDs):
             pass
     
         if shouldShutdown == True or shouldReboot == True:
-            TrackBots.saveBotList()
-            QuietRooms.saveQuietRoomList ()
+            TrackBots.save_bot_list()
+            QuietRooms.save_room_list ()
             break
         
-        if len (TrackBots.botsList) != botListLen:
-            botListLen = len (TrackBots.botsList)
-            TrackBots.saveBotList()
+        if len (TrackBots.bots_list) != botListLen:
+            botListLen = len (TrackBots.bots_list)
+            TrackBots.save_bot_list()
 
-        if len (QuietRooms.quietRooms) != quietRoomLen:
-            quietRoomLen = len (QuietRooms.quietRooms)
-            QuietRooms.saveQuietRoomList()
+        if len (QuietRooms.quiet_rooms) != quietRoomLen:
+            quietRoomLen = len (QuietRooms.quiet_rooms)
+            QuietRooms.save_room_list()
         
         #Save files every 60 seconds.
         if time.time() - lastSaveTime >= 60:
             lastSaveTime = time.time()
-            TrackBots.saveBotList()
-            QuietRooms.saveQuietRoomList()
+            TrackBots.save_bot_list()
+            QuietRooms.save_room_list()
     
         #Check if a bot is dead
-        for each_bot in TrackBots.botsList:
-            if TrackBots.isBotAlive (each_bot ["user_id"]) == False and each_bot ["status"] == "alive":
+        for each_bot in TrackBots.bots_list:
+            if not each_bot.is_bot_alive() and each_bot.alive:
                 timeBeforeMessage = time.time()
                 
-                for each_room in each_bot ["rooms"]:
-                    postMessage (ceExt.getRoomFromID (each_room), "@" + each_bot ["name"] + " alive")
+                for each_room in each_bot.rooms:
+                    postMessage (ceExt.getRoomFromID (each_room), "@" + each_bot.name + " alive")
                 
                 #Check if the bot is not listening to messages.
                 while time.time() - timeBeforeMessage < 10:
@@ -95,17 +92,17 @@ def scheduleBackgroundTasks (client, roomIDs):
                     ceExt.postMessageInRooms (Utilities.rooms, Utilities.startLink + "I am not listening to chat messages (cc @ashish). Auto-reboot in progress...")
                     print ("I am not listening to chat messages. Auto-reboot in progress...")
                     shouldReboot = True
-                
-                currentTime = time.time()
-                while (time.time() - currentTime < 30):
-                    if TrackBots.isBotAlive (each_bot ["user_id"]) == True:
-                        break
+                else:
+                    currentTime = time.time()
+                    while (time.time() - currentTime < 30):
+                        if each_bot.is_bot_alive():
+                            break
 
-                if TrackBots.isBotAlive (each_bot ["user_id"]) == False:
-                    for each_room in each_bot ["rooms"]:
-                        postMessage(ceExt.getRoomFromID (each_room), Utilities.startLink + " " + each_bot ["name"] + " is dead (" + each_bot ["to_ping"] + ").")
+                    if not each_bot.is_bot_alive():
+                        for each_room in each_bot.rooms:
+                            postMessage(ceExt.getRoomFromID (each_room), Utilities.startLink + " " + each_bot.name + " is dead (" + each_bot.to_ping + ").")
                             
-                    each_bot ["status"] = "dead"
+                        each_bot.alive = False
 
         time.sleep (1)
 

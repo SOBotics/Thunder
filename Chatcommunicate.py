@@ -68,9 +68,11 @@ def handleMessage (message, client):
     if message.user.id == Utilities.myUserID:
         Utilities.lastMessageTime = time.time()
 
-    TrackBots.updateLastMessageTime (message.user.id)
+    for each_bot in TrackBots.bots_list:
+        if each_bot.user_id == message.user.id:
+            each_bot.update_last_message_time()
 
-    if QuietRooms.isRoomQuiet (message.room.id):
+    if QuietRooms.is_room_quiet(message.room.id):
         return
     
     try:

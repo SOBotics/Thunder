@@ -50,7 +50,7 @@ def commandListRunningCommands (message, args):
     postMessage (message.room, "    " + re.sub ('\n', '\n    ', table))
 
 def commandTrackBot (message, args):
-    newBot = {"name": "unknown", "user_id": -1, "to_ping": "unknown", "time_to_wait": -1, "last_message_time": time.time(), "rooms": [], "status": "alive"}
+    newBot = {"name": "unknown", "user_id": -1, "to_ping": "unknown", "time_to_wait": -1, "last_message_time": time.time(), "rooms": []}
     
     for each_arg in args:
         if each_arg.startswith ("name="):
@@ -75,46 +75,41 @@ def commandTrackBot (message, args):
     if (newBot["name"] == "unknown") or (newBot ["user_id"] == -1) or (newBot ["to_ping"] == "unknown") or (newBot ["time_to_wait"] == -1):
         postReply (message, "Please provide adequate arguments: `name`, `user_id`, `to_ping`, `time_to_wait` and optionally `rooms`.")
     else:
-        TrackBots.botsList.append (newBot)
+        TrackBots.add_bot(newBot["name"], newBot["user_id"], newBot["to_ping"], newBot["rooms"], newBot["time_to_wait"], newBot["last_message_time"], True) 
         postReply (message, "Bot '" + newBot ["name"] + "' has been added to the bot watch list.")
 
 #TODO: Make this take args starting with 'userid='
 def commandUntrackBot (message, args):
-    TrackBots.deleteBot (int (args [0]))
+    TrackBots.delete_bot (int (args [0]))
     postReply(message, "Bot with userID '" + args [0] + "' has been deleted.")
 
 def commandUpdateBot (message, args):
-    userID = -1
+    user_id = -1
     if args [0].startswith("userid="):
-        userID = int (args[0].replace ("userid=", ""))
+        user_id = int (args[0].replace ("userid=", ""))
     elif args [0].startswith("user_id="):
-        userID = int (args[0].replace ("user_id=", ""))
+        user_id = int (args[0].replace ("user_id=", ""))
     elif args [0].startswith("userID="):
-        userID = int (args[0].replace ("userID=", ""))
+        user_id = int (args[0].replace ("userID=", ""))
 
-    if userID == -1:
-        postReply (message, "Please give the user id as the first argument (`userid=<userid>`).")
-
-    botIndex = TrackBots.getBotIndexByID (userID)
-
-    if botIndex == -1:
-        postReply (message, "The userID you have given does not exist in the bot database.")
+    if user_id == -1:
+        postReply (message, "Please give the first argument as 'user_id=<id>'.")
         return
 
-    del args [0]
+    bot = TrackBots.get_bot(user_id)
 
     for each_arg in args:
         if each_arg.startswith ("time_to_wait="):
-            TrackBots.botsList [botIndex]["time_to_wait"] = int (each_arg.replace ("time_to_wait=", ""))
+            bot.update_time_to_wait(int (each_arg.replace ("time_to_wait=", "")))
         elif each_arg.startswith ("to_ping="):
-                TrackBots.botsList [botIndex]["to_ping"] = each_arg.replace ("to_ping=", "")
+            bot.update_to_ping(each_arg.replace ("to_ping=", ""))
 
     postReply (message, "The bot has been updated.")
 
 def commandListBots (message, args):
     botList = list()
-    for each_bot in TrackBots.botsList:
-        botList.append ([each_bot["name"], each_bot ["status"], str(datetime.timedelta(seconds=(time.time() - each_bot["last_message_time"]))) + " ago. "])
+    for each_bot in TrackBots.bots_list:
+        botList.append ([each_bot.name, each_bot.get_bot_status_string(), str(datetime.timedelta(seconds=(time.time() - each_bot.last_message_time))) + " ago. "])
     
     table = tabulate (botList, headers=["Bot", "Status", "Last known alive time"], tablefmt="orgtbl")
 
@@ -141,7 +136,7 @@ def commandAddQuietRoom (message, args):
         postReply (message, "Please provide a `roomid=` and optionally an `interval=`.")
         return
 
-    QuietRooms.addQuietRoom (roomID, interval)
+    QuietRooms.add_quiet_room(roomID, interval)
 
     postReply (message, "Quiet room with id '" + str (roomID) + "' has been added.")
 
@@ -153,14 +148,14 @@ def commandDeleteQuietRoom (message, args):
         postReply (message, "Please provide a `roomid=`.")
         return
 
-    QuietRooms.deleteQuietRoom (roomID)
+    QuietRooms.delete_quiet_room (roomID)
 
     postReply (message, "Quiet room with id '" + str (roomID) + "' has been deleted.")
 
 def commandListRooms (message, args):
     roomList = list()
     for each_room in Utilities.rooms:
-        roomList.append ([each_room.name, each_room.id, "Normal" if QuietRooms.isRoomQuiet (each_room.id) != True else "Quiet"])
+        roomList.append ([each_room.name, each_room.id, "Normal" if QuietRooms.is_room_quiet(each_room.id) != True else "Quiet"])
 
     table = tabulate (roomList, headers=["Name", "Room ID", "Type"], tablefmt="orgtbl")
     print (repr (table))

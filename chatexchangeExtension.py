@@ -24,13 +24,13 @@ def postMessageInRooms (rooms, message):
         postMessage (each_room, message)
 
 def postMessage (room, message):
-    if QuietRooms.isRoomQuiet (room.id) == True:
+    if QuietRooms.is_room_quiet(room.id) == True:
         return
 
     room.send_message (message, length_check=False)
 
 def postReply (message, text):
-    if QuietRooms.isRoomQuiet (message.room.id) == True:
+    if QuietRooms.is_room_quiet(message.room.id) == True:
         return
 
     message.message.reply (text)

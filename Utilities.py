@@ -16,6 +16,15 @@ myself = None
 myUserID = -1
 client = chatexchange.Client
 
+#The Redunda class.
+Redunda = None
+
+#List of files to sync with Redunda.
+files_to_sync = [{"name": "bot_list.pickle", "ispickle": True}, {"name": "quiet_rooms.pickle", "ispickle": True}]
+
+#The bot's location. Should be something like "Ashish/MacMini" (<name>/<computer>)
+location = "unknown_location"
+
 #The name of the bot. A message must start with this name to be recognized as a command
 name = "@Thunder"
 
