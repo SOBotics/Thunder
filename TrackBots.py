@@ -78,7 +78,7 @@ def save_bot_list():
     dict_list = list()
 
     for each_class in bots_list:
-        dict_list.append({"name": each_class["name"], "user_id": each_class["user_id"], "to_ping": each_class["to_ping"], "rooms": each_class["rooms"], "time_to_wait": each_class["time_to_wait"], "last_message_time": each_class["last_message_time"], "alive": each_class["alive"]})
+        dict_list.append({"name": each_class.name, "user_id": each_class.user_id, "to_ping": each_class.to_ping, "rooms": each_class.rooms, "time_to_wait": each_class.time_to_wait, "last_message_time": each_class.last_message_time, "alive": each_class.alive})
 
     Utilities.saveToPickle("botlist.pickle", dict_list)
 
