@@ -55,6 +55,9 @@ def scheduleBackgroundTasks (client, roomIDs):
         except TypeError:
             pass
     
+        if Utilities.Redunda:
+            Utilities.Redunda.sendStatusPing()
+    
         if shouldShutdown == True or shouldReboot == True:
             TrackBots.save_bot_list()
             QuietRooms.save_room_list ()
