@@ -2,6 +2,7 @@
 
 import pickle
 import chatexchange
+import time
 
 #The chat host
 host = "stackoverflow.com"
@@ -61,3 +62,7 @@ def loadFromPickle (filename):
     
     return []
 
+#This should be done using `time.time()` whenever possible, but in optional variables,
+#you would need to call this function for the value to not be static.
+def get_current_time():
+    return time.time()
