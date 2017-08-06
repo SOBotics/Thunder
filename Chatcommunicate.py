@@ -70,8 +70,7 @@ def handleMessage (message, client):
 
     for each_bot in TrackBots.bots_list:
         if each_bot.user_id == message.user.id:
-            print("\o/")
-            each_bot.update_last_message_time()
+            each_bot.update_last_message_time(time.time())
 
     if QuietRooms.is_room_quiet(message.room.id):
         return

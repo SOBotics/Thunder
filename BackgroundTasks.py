@@ -103,7 +103,7 @@ def scheduleBackgroundTasks (client, roomIDs):
 
                     if not each_bot.is_bot_alive():
                         for each_room in each_bot.rooms:
-                            postMessage(ceExt.getRoomFromID (each_room), Utilities.startLink + " " + each_bot.name + " is dead (" + each_bot.to_ping + ").")
+                            postMessage(ceExt.getRoomFromID (each_room), Utilities.startLink + " " + each_bot.name + " is dead (" + "@ashish" + ").")
                             
                         each_bot.alive = False
 
