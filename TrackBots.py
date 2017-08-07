@@ -56,6 +56,7 @@ class TrackBot:
 
     def update_last_message_time(self, last_message_time=Utilities.get_current_time()):
         self.last_message_time = last_message_time
+        self.alive = True
         print("Updating last message time for userid " + str(self.user_id) + ".")
 
     def update_to_ping(self, to_ping):
