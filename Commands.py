@@ -81,6 +81,14 @@ def commandTrackBot (message, args):
 #TODO: Make this take args starting with 'userid='
 def commandUntrackBot (message, args):
     TrackBots.delete_bot (int (args [0]))
+
+    if args[0].startswith("userid="):
+        TrackBots.delete_bot(int(args[0].replace("userid=", "")))
+    elif args[0].startswith("user_id=", ""):
+        TrackBots.delete_bot(int(args[0].replace("user_id=", "")))
+    else:
+        TrackBots.delete_bot(int(args[0]))
+    
     postReply(message, "Bot with userID '" + args [0] + "' has been deleted.")
 
 def commandUpdateBot (message, args):
@@ -106,60 +114,60 @@ def commandUpdateBot (message, args):
 
     postReply (message, "The bot has been updated.")
 
-def commandListBots (message, args):
+def commandListBots(message, args):
     botList = list()
     for each_bot in TrackBots.bots_list:
-        botList.append ([each_bot.name, each_bot.get_bot_status_string(), str(datetime.timedelta(seconds=(time.time() - each_bot.last_message_time))) + " ago. "])
+        botList.append([each_bot.name, each_bot.get_bot_status_string(), str(datetime.timedelta(seconds=(time.time() - each_bot.last_message_time))) + " ago. "])
     
-    table = tabulate (botList, headers=["Bot", "Status", "Last known alive time"], tablefmt="orgtbl")
+    table = tabulate(botList, headers=["Bot", "Status", "Last known alive time"], tablefmt="orgtbl")
 
     #The regex puts four spaces after every newline so that the table is formatted as code.
-    print (repr("    " + re.sub ('\n', '\n    ', table)))
-    postMessage (message.room, "    " + re.sub ('\n', '\n    ', table))
+    print(repr("    " + re.sub('\n', '\n    ', table)))
+    postMessage(message.room, "    " + re.sub('\n', '\n    ', table))
 
 def commandUpdateCode (message, args):
-    call (["git", "pull", "origin", "master"])
+    call(["git", "pull", "origin", "master"])
     BackgroundTasks.shouldReboot = True
-    postReply (message, "Updating...")
+    postReply(message, "Updating...")
 
-def commandAddQuietRoom (message, args):
+def commandAddQuietRoom(message, args):
     roomID = 0
     interval = 120
 
     for each_arg in args:
         if each_arg.startswith("roomid="):
-            roomID = int (each_arg.replace ("roomid=", ""))
+            roomID = int(each_arg.replace("roomid=", ""))
         elif each_arg.startswith("interval="):
-            interval = int (each_arg.replace ("interval=", ""))
+            interval = int(each_arg.replace("interval=", ""))
 
     if roomID == 0:
-        postReply (message, "Please provide a `roomid=` and optionally an `interval=`.")
+        postReply(message, "Please provide a `roomid=` and optionally an `interval=`.")
         return
 
     QuietRooms.add_quiet_room(roomID, interval)
 
-    postReply (message, "Quiet room with id '" + str (roomID) + "' has been added.")
+    postReply(message, "Quiet room with id '" + str(roomID) + "' has been added.")
 
-def commandDeleteQuietRoom (message, args):
+def commandDeleteQuietRoom(message, args):
     roomID = 0
-    if args [0].startswith ("roomid="):
-        roomID = int (args [0].replace ("roomid=", ""))
+    if args [0].startswith("roomid="):
+        roomID = int(args [0].replace("roomid=", ""))
     else:
-        postReply (message, "Please provide a `roomid=`.")
+        postReply(message, "Please provide a `roomid=`.")
         return
 
-    QuietRooms.delete_quiet_room (roomID)
+    QuietRooms.delete_quiet_room(roomID)
 
-    postReply (message, "Quiet room with id '" + str (roomID) + "' has been deleted.")
+    postReply(message, "Quiet room with id '" + str(roomID) + "' has been deleted.")
 
-def commandListRooms (message, args):
+def commandListRooms(message, args):
     roomList = list()
     for each_room in Utilities.rooms:
-        roomList.append ([each_room.name, each_room.id, "Normal" if QuietRooms.is_room_quiet(each_room.id) != True else "Quiet"])
+        roomList.append([each_room.name, each_room.id, "Normal" if QuietRooms.is_room_quiet(each_room.id) != True else "Quiet"])
 
-    table = tabulate (roomList, headers=["Name", "Room ID", "Type"], tablefmt="orgtbl")
-    print (repr (table))
-    postMessage (message.room, "    " + re.sub ('\n', '\n    ', table))
+    table = tabulate(roomList, headers=["Name", "Room ID", "Type"], tablefmt="orgtbl")
+    print(repr(table))
+    postMessage(message.room, "    " + re.sub('\n', '\n    ', table))
 
 commandList = {
     "alive": commandAlive,
