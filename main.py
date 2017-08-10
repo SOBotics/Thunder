@@ -16,12 +16,12 @@ from pathlib import Path
 Utilities.startTime = time.time()
 
 #Check for Redunda key and location
-redunda_file = Path("~/redunda_key.txt")
-if redunda_file.is_file():
-    with open("~/redunda_key.txt", "r") as redunda_file:
-        redunda_key = redunda_file.read()
+if os.path.isfile(str(Path.home()) + "/redunda_key.txt"):
+    with open(str(Path.home()) + "/redunda_key.txt", "r") as redunda_file:
+        redunda_key = str(redunda_file.read()).replace(" ", "").replace("\n", "")
     
-    Utilities.Redunda = pyRedunda.Redunda (redunda_key, Utilities.files_to_sync, "production")
+    re = pyRedunda.Redunda (redunda_key, Utilities.filesToSync, "production")
+    re.sendStatusPing()
     Utilities.Redunda.sendStatusPing()
     Utilities.location = Utilities.Redunda.location
 
