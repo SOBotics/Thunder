@@ -11,13 +11,12 @@ from Utilities import client
 import chatexchange
 import pyRedunda
 import time
-from pathlib import Path
 
 Utilities.startTime = time.time()
 
 #Check for Redunda key and location
-if os.path.isfile(str(Path.home()) + "/redunda_key.txt"):
-    with open(str(Path.home()) + "/redunda_key.txt", "r") as redunda_file:
+if os.path.isfile(str(os.path.expanduser("~")) + "/redunda_key.txt"):
+    with open(str(os.path.expanduser("~")) + "/redunda_key.txt", "r") as redunda_file:
         redunda_key = str(redunda_file.read()).replace(" ", "").replace("\n", "")
     
     re = pyRedunda.Redunda (redunda_key, Utilities.filesToSync, "production")
