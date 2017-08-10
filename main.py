@@ -19,7 +19,7 @@ if os.path.isfile(str(os.path.expanduser("~")) + "/redunda_key.txt"):
     with open(str(os.path.expanduser("~")) + "/redunda_key.txt", "r") as redunda_file:
         redunda_key = str(redunda_file.read()).replace(" ", "").replace("\n", "")
     
-    re = pyRedunda.Redunda (redunda_key, Utilities.filesToSync, "production")
+    re = pyRedunda.Redunda (redunda_key, Utilities.files_to_sync, "production")
     re.sendStatusPing()
     Utilities.Redunda.sendStatusPing()
     Utilities.location = Utilities.Redunda.location
