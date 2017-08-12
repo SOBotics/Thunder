@@ -20,7 +20,7 @@ def listenForMessages (client, roomIDs):
     for each_room in rooms:
         each_room.join()
         print ("Joined room " + str(each_room.id) + ".")
-        postMessage(each_room, Utilities.startLink + " Thunder started.")
+        postMessage(each_room, Utilities.startLink + " Thunder started on `" + Utilities.location + "`.")
     
         each_room.watch (Chatcommunicate.handleMessage)
 
@@ -58,9 +58,9 @@ def scheduleBackgroundTasks (client, roomIDs):
         if Utilities.Redunda:
             Utilities.Redunda.sendStatusPing()
     
-        if shouldShutdown == True or shouldReboot == True:
+        if shouldShutdown or shouldReboot or Utilities.Redunda.shouldStandby:
             TrackBots.save_bot_list()
-            QuietRooms.save_room_list ()
+            QuietRooms.save_room_list()
             break
         
         if len (TrackBots.bots_list) != botListLen:

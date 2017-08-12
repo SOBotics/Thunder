@@ -40,10 +40,15 @@ Utilities.client = client
 Utilities.myself = client.get_me()
 Utilities.myUserID = Utilities.myself.id
 
-backgroundThread = threading.Thread (target=BackgroundTasks.scheduleBackgroundTasks, args=(client, Utilities.roomIDs), kwargs={})
+while Utilities.shouldShutdown or Utilities.shouldReboot:
+    while Utilities.shouldStandby:
+        Utilities.Redunda.sendStatusPing()
+        time.sleep(45)
 
-backgroundThread.start()
-backgroundThread.join()
+    backgroundThread = threading.Thread (target=BackgroundTasks.scheduleBackgroundTasks, args=(client, Utilities.roomIDs), kwargs={})
+
+    backgroundThread.start()
+    backgroundThread.join()
 
 #This will work only if you are running the bot with 'nocrash.sh'.
 if BackgroundTasks.shouldReboot == True:
