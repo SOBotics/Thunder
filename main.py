@@ -40,7 +40,7 @@ Utilities.client = client
 Utilities.myself = client.get_me()
 Utilities.myUserID = Utilities.myself.id
 
-while Utilities.shouldShutdown or Utilities.shouldReboot:
+while BackgroundTasks.shouldShutdown or BackgroundTasks.shouldReboot:
     while Utilities.shouldStandby:
         Utilities.Redunda.sendStatusPing()
         time.sleep(45)
