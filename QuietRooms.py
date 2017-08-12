@@ -44,6 +44,8 @@ def save_room_list():
 def load_room_list():
     dict_list = Utilities.loadFromPickle("quietroomlist.pickle")
 
+    quiet_rooms[:] = []
+
     for each_dict in dict_list:
         quiet_rooms.append(QuietRoom(each_dict["room_id"], each_dict["interval"]))
 

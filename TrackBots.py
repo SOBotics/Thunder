@@ -37,6 +37,8 @@ def save_bot_list():
 def load_bot_list():
     dict_list = Utilities.loadFromPickle("botlist.pickle")
 
+    bots_list[:] = []
+
     for each_dict in dict_list:
         add_bot(each_dict["name"], each_dict["user_id"], each_dict["to_ping"], each_dict["rooms"], each_dict["time_to_wait"], each_dict["last_message_time"], each_dict["alive"])
 
