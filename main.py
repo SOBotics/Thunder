@@ -40,10 +40,13 @@ Utilities.client = client
 Utilities.myself = client.get_me()
 Utilities.myUserID = Utilities.myself.id
 
-while not BackgroundTasks.shouldShutdown or not BackgroundTasks.shouldReboot:
+while BackgroundTasks.shouldShutdown == False or BackgroundTasks.shouldReboot == False:
     while Utilities.Redunda.shouldStandby:
         Utilities.Redunda.sendStatusPing()
         time.sleep(45)
+
+    if BackgroundTasks.shouldShutdown or BackgroundTasks.shouldReboot:
+        break
 
     backgroundThread = threading.Thread (target=BackgroundTasks.scheduleBackgroundTasks, args=(client, Utilities.roomIDs), kwargs={})
 
@@ -53,7 +56,7 @@ while not BackgroundTasks.shouldShutdown or not BackgroundTasks.shouldReboot:
 #This will work only if you are running the bot with 'nocrash.sh'.
 if BackgroundTasks.shouldReboot == True:
     print ("Rebooting...")
-    os._exit (2)
+    os._exit(2)
 
 client.logout()
 
