@@ -8,7 +8,10 @@ import time
 host = "stackoverflow.com"
 
 #This will contain an array of the Class 'Room' once the bot joins the specified rooms
-rooms = list ()
+rooms = list()
+
+#The index of the room in 'roomsIDs' which the bot should post errors to.
+error_index = 1
 
 #The roomIDs the bot should join
 roomIDs = [111347, 123602]

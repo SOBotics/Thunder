@@ -20,9 +20,10 @@ def listenForMessages (client, roomIDs):
     for each_room in rooms:
         each_room.join()
         print ("Joined room " + str(each_room.id) + ".")
-        postMessage(each_room, Utilities.startLink + " Thunder started on `" + Utilities.location + "`.")
-    
         each_room.watch (Chatcommunicate.handleMessage)
+   
+    postMessage(Utilities.rooms[Utilities.error_index], Utilities.startLink + " Thunder started on `" + Utilities.location + "`.")
+
 
     QuietRooms.load_room_list()
 
