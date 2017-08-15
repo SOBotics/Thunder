@@ -24,7 +24,7 @@ def postMessageInRooms (rooms, message):
         postMessage (each_room, message)
 
 def postMessage (room, message):
-    if QuietRooms.is_room_quiet(room.id) == True:
+    if QuietRooms.is_room_quiet(room.id):
         return
 
     room.send_message (message, length_check=False)

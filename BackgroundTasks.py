@@ -58,8 +58,14 @@ def scheduleBackgroundTasks (client, roomIDs):
     
         if Utilities.Redunda:
             Utilities.Redunda.sendStatusPing()
+            
+            if Utilities.Redunda.shouldStandby:
+                postMessage(Utilities.rooms[Utilities.error_index], Utilities.startLink + " Thunder running on " + Utilities.location + " shifting to standby.") 
+                TrackBots.save_bot_list()
+                TrackBots.save_room_list()
+                break
     
-        if shouldShutdown or shouldReboot or Utilities.Redunda.shouldStandby:
+        if shouldShutdown or shouldReboot:
             TrackBots.save_bot_list()
             QuietRooms.save_room_list()
             break
@@ -93,7 +99,7 @@ def scheduleBackgroundTasks (client, roomIDs):
                 
                 if time.time () - Utilities.lastMessageTime > 10:
                     #The bot is not listening to messages anymore; post a message indicating that and then auto-reboot.
-                    ceExt.postMessageInRooms (Utilities.rooms, Utilities.startLink + "I am not listening to chat messages (cc @ashish). Auto-reboot in progress...")
+                    postMessage(Utilities.rooms[Utilities.error_index], Utilities.startLink + " I am not listening to chat messages (cc @ashish). Auto-reboot in progress...")
                     print ("I am not listening to chat messages. Auto-reboot in progress...")
                     shouldReboot = True
                 else:
