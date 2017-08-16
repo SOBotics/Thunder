@@ -24,7 +24,7 @@ client = chatexchange.Client
 Redunda = None
 
 #List of files to sync with Redunda.
-files_to_sync = [{"name": "bot_list.pickle", "ispickle": True}, {"name": "quiet_rooms.pickle", "ispickle": True}]
+files_to_sync = [{"name": "botlist.pickle", "ispickle": True}, {"name": "quietroomlist.pickle", "ispickle": True}]
 
 #The bot's location. Should be something like "Ashish/MacMini" (<name>/<computer>)
 location = "unknown_location"

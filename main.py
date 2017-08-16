@@ -40,10 +40,15 @@ Utilities.client = client
 Utilities.myself = client.get_me()
 Utilities.myUserID = Utilities.myself.id
 
+if Utilities.Redunda:
+    Utilities.Redunda.downloadFiles()
+
 while BackgroundTasks.shouldShutdown == False or BackgroundTasks.shouldReboot == False:
-    while Utilities.Redunda.shouldStandby:
-        Utilities.Redunda.sendStatusPing()
-        time.sleep(45)
+    if Utilities.Redunda:
+        while Utilities.Redunda.shouldStandby:
+            Utilities.Redunda.sendStatusPing()
+            Utilities.Redunda.downloadFiles()
+            time.sleep(45)
 
     if BackgroundTasks.shouldShutdown or BackgroundTasks.shouldReboot:
         break

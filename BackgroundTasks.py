@@ -56,7 +56,7 @@ def scheduleBackgroundTasks (client, roomIDs):
         except TypeError:
             pass
     
-        if Utilities.Redunda:
+        if Utilities.Redunda and time.time() - lastSaveTime >= 60:
             Utilities.Redunda.sendStatusPing()
             
             if Utilities.Redunda.shouldStandby:
@@ -83,6 +83,9 @@ def scheduleBackgroundTasks (client, roomIDs):
             lastSaveTime = time.time()
             TrackBots.save_bot_list()
             QuietRooms.save_room_list()
+
+            if Utilities.Redunda:
+                Utilities.Redunda.uploadFiles()
     
         #Check if a bot is dead
         for each_bot in TrackBots.bots_list:
