@@ -42,6 +42,7 @@ def scheduleBackgroundTasks (client, roomIDs):
     botListLen = len (TrackBots.bots_list)
     quietRoomLen = len (QuietRooms.quiet_rooms)
     lastSaveTime = time.time()
+    last_ping_time = time.time()
     
     #Load the list of bots from the pickle
     TrackBots.load_bot_list()
@@ -56,8 +57,10 @@ def scheduleBackgroundTasks (client, roomIDs):
         except TypeError:
             pass
     
-        if Utilities.Redunda and time.time() - lastSaveTime >= 60:
+        if Utilities.Redunda and time.time() - last_ping_time >= 30:
             Utilities.Redunda.sendStatusPing()
+
+            last_ping_time = time.time()
             
             if Utilities.Redunda.shouldStandby:
                 postMessage(Utilities.rooms[Utilities.error_index], Utilities.startLink + " Thunder running on " + Utilities.location + " shifting to standby.") 
