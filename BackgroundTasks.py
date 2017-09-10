@@ -52,7 +52,7 @@ def scheduleBackgroundTasks (client, roomIDs):
             #Remove commands which have completed.
             if len (Chatcommunicate.runningCommands) > 0:
                 for each_command in Chatcommunicate.runningCommands:
-                    if not each_command["thread"].is_alive:
+                    if not each_command["thread"].isAlive():
                         Chatcommunicate.runningCommands.remove(each_command)
         except TypeError:
             pass
