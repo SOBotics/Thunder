@@ -1,3 +1,11 @@
+#
+# main.py
+# Thunder
+#
+# Created by Ashish Ahuja on 17th April 2018.
+# Licensed under WTFPL (http://www.wtfpl.net/).
+#
+
 import BotpySE as bp
 import chatexchange as ce
 
