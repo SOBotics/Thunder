@@ -3,11 +3,14 @@
 # Thunder
 #
 # Created by Ashish Ahuja on 17th April 2018.
-# Licensed under WTFPL (http://www.wtfpl.net/).
+# Licensed under WTFPL (http://www.wtfpl.net).
 #
 
 import BotpySE as bp
 import chatexchange as ce
+
+import TrackBots as tb
+from commands import all_commands 
 
 import os
 import subprocess
@@ -15,10 +18,9 @@ import getpass
 
 class Thunder:
     def __init__(self, name, email, password, rooms):
-        commands = bp.all_commands
         self._bot_header = '[ [Thunder](https://github.com/SOBotics/Thunder) ]'
         
-        self.bot = bp.Bot(name, commands, rooms, [], "stackoverflow.com", email, password)
+        self.bot = bp.Bot(name, all_commands, rooms, [], "stackoverflow.com", email, password)
 
         try:
             with open(self.bot._storage_prefix + 'redunda_key.txt', 'r') as file_handle:
@@ -39,6 +41,9 @@ class Thunder:
         self.bot.start()
         self.bot.add_privilege_type(1, "owner")
         self.bot.set_room_owner_privs_max()
+
+        self._track_bots = tb.TrackBots(self.bot)
+        self.bot._command_manager._track_bots = self._track_bots
 
     def _get_current_hash(self):
         return subprocess.run(['git', 'log', '-n', '1', '--pretty=format:"%H"'], stdout=subprocess.PIPE).stdout.decode('utf-8')[1:8]
