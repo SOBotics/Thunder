@@ -59,4 +59,4 @@ if __name__ == "__main__":
     else:
         password = getpass.getpass("Password: ")
 
-    Thunder("Thunder", email, password, rooms=[167908])
+    Thunder("Thunder", email, password, rooms=[111347])
