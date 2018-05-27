@@ -9,18 +9,66 @@
 bots = [
     {
         'chat_id': 6294609,
-        'room': 167908,
+        'room': 111347,
         'name': "Queen",
         'command_to_run': "@Queen alive",
         'owner_name': "Ashish Ahuja",
-        'wait_time': 120
+        'wait_time': 5600
     },
     {
         'chat_id': 5269493,
-        'room': 167908,
+        'room': 111347,
         'name': "Pham",
         'command_to_run': "@Pham alive",
+        'owner_name': "Sam",
+        'wait_time': 120
+    }, 
+    {
+        'chat_id': 6373379,
+        'room': 111347,
+        'name': "FireAlarm",
+        "command_to_run": "@FireAlarm alive",
         'owner_name': "Ashish Ahuja",
-        'wait_time': 120 
+        'wait_time': 7200
+    },
+    {
+        'chat_id': 6817005,
+        'room': 111347,
+        'name': "Natty",
+        'command_to_run': "@Natty alive",
+        'owner_name': "Bhargav Rao",
+        'wait_time': 3600,
+    },
+    {
+        'chat_id': 8149646,
+        'room': 111347,
+        'name': "Belisarius",
+        'command_to_run': "@Beli alive",
+        'owner_name': "Bugs",
+        'wait_time': 7200
+    },
+    {
+        'chat_id': 7481043,
+        'room': 111347,
+        'name': 'Generic Bot',
+        'command_to_run': "@generic alive",
+        'owner_name': "Floern",
+        "wait_time": 10800
+    },
+    {
+        'chat_id': 7418352,
+        'room': 111347,
+        'name': 'Guttenberg',
+        'command_to_run': "@gut alive",
+        'owner_name': "FelixSFD",
+        'wait_time': 7200
+    },
+    {
+        'chat_id': 7829893,
+        'room': 111347,
+        'name': 'Housekeeping',
+        'command_to_run': "@housekeeping alive",
+        'owner_name': "Baum",
+        'wait_time': 10800
     }
 ] 
