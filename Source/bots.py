@@ -12,23 +12,15 @@ bots = [
         'room': 111347,
         'name': "Queen",
         'command_to_run': "@Queen alive",
-        'owner_name': "Ashish Ahuja",
+        'owner_name': "Petter",
         'wait_time': 5600
     },
-    {
-        'chat_id': 5269493,
-        'room': 111347,
-        'name': "Pham",
-        'command_to_run': "@Pham alive",
-        'owner_name': "Sam",
-        'wait_time': 120
-    }, 
     {
         'chat_id': 6373379,
         'room': 111347,
         'name': "FireAlarm",
         "command_to_run": "@FireAlarm alive",
-        'owner_name': "Ashish Ahuja",
+        'owner_name': "NobodyNada",
         'wait_time': 7200
     },
     {
@@ -69,6 +61,30 @@ bots = [
         'name': 'Housekeeping',
         'command_to_run': "@housekeeping alive",
         'owner_name': "Baum",
+        'wait_time': 10800
+    },
+    {
+        'chat_id': 9220325,
+        'room': 111347,
+        'name': "FlaggersHall",
+        'command_to_run': "cyf alive",
+        'owner_name': "Filnor",
+        'wait_time': 10800
+    },
+    {
+        'chat_id': 5675570,
+        'room': 111347,
+        'name': "TagWiki Monitor",
+        'command_to_run': "@jammy alive",
+        'owner_name': "Bhargav Rao",
+        'wait_time': 10800
+    },
+    {
+        'chat_id': 7240793,
+        'room': 111347,
+        'name': "Badger",
+        "command_to_run": "@bdger alive",
+        'owner_name': "Bhargav Rao",
         'wait_time': 10800
     }
 ] 
