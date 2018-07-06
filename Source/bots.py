@@ -66,8 +66,8 @@ bots = [
     {
         'chat_id': 9220325,
         'room': 111347,
-        'name': "FlaggersHall",
-        'command_to_run': "cyf alive",
+        'name': "CheckYerFlags",
+        'command_to_run': "@CheckYerFlags alive",
         'owner_name': "Filnor",
         'wait_time': 10800
     },
