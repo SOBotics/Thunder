@@ -90,8 +90,8 @@ bots = [
     {
         'chat_id': 10042414,
         'room': 111347,
-        'name': "SoundFlow",
-        'command_to_run': "@SoundFlow alive",
+        'name': "Hermes",
+        'command_to_run': "@Hermes alive",
         'owner_name': "Filnor",
         'wait_time': 10800
     }
