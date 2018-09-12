@@ -86,5 +86,13 @@ bots = [
         "command_to_run": "@badger alive",
         'owner_name': "Bhargav Rao",
         'wait_time': 7200
+    },
+    {
+        'chat_id': 10042414,
+        'room': 111347,
+        'name': "Hermes",
+        'command_to_run': "@Hermes alive",
+        'owner_name': "Filnor",
+        'wait_time': 10800
     }
 ] 
