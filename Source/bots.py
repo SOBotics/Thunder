@@ -102,13 +102,5 @@ bots = [
         'command_to_run': "@SpotDetector alive",
         'owner_name': "FrankerZ",
         'wait_time': 10800
-    },
-    {
-        'chat_id': 8300708,
-        'room': 111347,
-        'name': "Gemmy",
-        'command_to_run': "@Gemmy quota",
-        'owner_name': "g00glen00b",
-        'wait_time': 10800
     }
 ] 
