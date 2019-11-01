@@ -94,5 +94,13 @@ bots = [
         'command_to_run': "@Hermes alive",
         'owner_name': "Filnor",
         'wait_time': 10800
+    },
+    {
+        'chat_id': 10162108,
+        'room': 111347,
+        'name': "SpotDetector",
+        'command_to_run': "@SpotDetector alive",
+        'owner_name': "FrankerZ",
+        'wait_time': 10800
     }
 ] 
